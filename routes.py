@@ -130,7 +130,7 @@ async def delete_user_route(user_id: int, db: Session = Depends(get_db)):
         await delete_operation(db, op.id)
     deleted = await delete_user(db, user_id)
     if deleted:
-        await notify_clients(f"User deleted: ID {user_id}")
+        await notify_clients(f"User deleted: #{user_id}")
         return {"message": "User deleted"}
     else:
         raise HTTPException(status_code=404, detail="User not found")
@@ -182,7 +182,7 @@ async def update_operation_route(oper_id: int, schema: schemas.OperationUpdate, 
         raise HTTPException(status_code=406, detail="Wrong type(only wage or payment)")
     except Exception:
         raise HTTPException(status_code=404, detail="User not found")
-    await notify_clients(f"Operation updated: {updated_oper.id}")
+    await notify_clients(f"Operation updated: #{updated_oper.id}")
     return updated_oper
 
 
@@ -193,7 +193,7 @@ async def delete_operation_route(oper_id: int, db: Session = Depends(get_db)):
     except ValueError:
         raise HTTPException(status_code=406, detail="Wrong type(only wage or payment)")
     if deleted:
-        await notify_clients(f"Operation deleted: ID {oper_id}")
+        await notify_clients(f"Operation deleted: #{oper_id}")
         return {"message": "Operation deleted"}
     else:
         raise HTTPException(status_code=404, detail="Operation not found")
